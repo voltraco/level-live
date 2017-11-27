@@ -4,7 +4,7 @@ const { Readable } = require('stream')
 const ltgt = require('ltgt')
 
 class Live extends Readable {
-  constructor (db, opts) {
+  constructor (db, opts = {}) {
     super({ objectMode: true })
 
     this.db = db

@@ -20,9 +20,9 @@ $ npm install level-live
 
 ## API
 
-### stream = new Live(db, opts)
+### stream = new Live(db[, opts])
 
-`opts` is a levelup style range object with those possible options:
+`opts` can be a levelup style range object with any of those options:
 
 - `gt`
 - `gte`

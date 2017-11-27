@@ -45,3 +45,13 @@ test('level-live', t => {
     })
   })
 })
+
+test('no opts', t => {
+  const db = level('no opts')
+  const stream = new Live(db)
+  stream.once('data', op => {
+    t.deepEqual(op, { type: 'put', key: 'foo', value: 'bar' })
+    t.end()
+  })
+  db.put('foo', 'bar')
+})
