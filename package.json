@@ -6,10 +6,15 @@
   "repository": "voltraco/level-live",
   "description": "Simple, light and correct LevelDB live read stream implementation",
   "scripts": {
-    "test": "prettier-standard '*.js' && standard"
+    "test": "tap test.js && prettier-standard '*.js' && standard"
   },
   "devDependencies": {
+    "level-mem": "^1.0.1",
     "prettier-standard": "^7.0.3",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "tap": "^11.0.0"
+  },
+  "dependencies": {
+    "ltgt": "^2.2.0"
   }
 }

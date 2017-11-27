@@ -1,13 +1,15 @@
 'use strict'
 
 const { Readable } = require('stream')
+const ltgt = require('ltgt')
 
 class Live extends Readable {
   constructor (db, opts) {
-    super(opts)
+    super({ objectMode: true })
 
     this.db = db
     this.buf = []
+    this.opts = opts
 
     this.onput = this.onput.bind(this)
     this.ondel = this.ondel.bind(this)
@@ -17,28 +19,40 @@ class Live extends Readable {
     db.on('del', this.ondel)
     db.on('batch', this.onbatch)
 
-    db.createReadStream(opts).on('data', this.onput)
+    db
+      .createReadStream(opts)
+      .on('data', ({ key, value }) => this.onput(key, value))
+  }
+
+  start () {
+    while (this.buf.length) {
+      if (!this.push(this.buf.shift())) {
+        break
+      }
+    }
   }
 
   _read () {
-    if (this.buf.length) this.push(this.buf.shift())
+    this.start()
   }
 
-  push (op) {
-    this.buf.push(op)
-    this.emit('readable')
+  op (op) {
+    if (ltgt.contains(this.opts, op.key)) {
+      this.buf.push(op)
+      if (this.buf.length === 1) this.start()
+    }
   }
 
-  onput ({ key, value }) {
-    this.push({ type: 'put', key, value })
+  onput (key, value) {
+    this.op({ type: 'put', key, value })
   }
 
-  ondel ({ key }) {
-    this.push({ type: 'del', key })
+  ondel (key) {
+    this.op({ type: 'del', key })
   }
 
   onbatch (ops) {
-    for (const op of ops) this.push(op)
+    for (const op of ops) this.op(op)
   }
 
   _destroy (_, cb) {
