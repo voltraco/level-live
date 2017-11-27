@@ -1,8 +1,7 @@
 {
   "name": "level-live",
   "version": "0.0.0",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "repository": "voltraco/level-live",
   "description": "Simple, light and correct LevelDB live read stream implementation",
   "scripts": {

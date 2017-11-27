@@ -15,7 +15,7 @@ stream.on('data', ({ type, key, value }) => {
 ## Installation
 
 ```bash
-$ npm install voltraco/level-live
+$ npm install level-live
 ```
 
 ## API
@@ -33,4 +33,4 @@ $ npm install voltraco/level-live
 
 ## License
 
-Private.
+MIT
