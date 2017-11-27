@@ -1,0 +1,15 @@
+{
+  "name": "level-live",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": "voltraco/level-live",
+  "description": "Simple, light and correct LevelDB live read stream implementation",
+  "scripts": {
+    "test": "prettier-standard '*.js' && standard"
+  },
+  "devDependencies": {
+    "prettier-standard": "^7.0.3",
+    "standard": "^10.0.3"
+  }
+}
