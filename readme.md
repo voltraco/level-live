@@ -6,6 +6,10 @@ Simple, light and correct [LevelDB](https://github.com/level/level) live read st
 
 ```js
 const stream = new Live(db, { gt: 'prefix' })
+
+stream.on('data', ({ type, key, value }) => {
+  // ...
+})
 ```
 
 ## Installation
