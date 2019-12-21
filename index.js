@@ -14,14 +14,16 @@ class Live extends Readable {
     this.onput = this.onput.bind(this)
     this.ondel = this.ondel.bind(this)
     this.onbatch = this.onbatch.bind(this)
-
     db.on('put', this.onput)
     db.on('del', this.ondel)
     db.on('batch', this.onbatch)
 
-    db
-      .createReadStream(opts)
-      .on('data', ({ key, value }) => this.onput(key, value))
+    if (opts.old !== false) {
+      db
+        .createReadStream(opts)
+        .on('data', ({ key, value }) => this.onput(key, value))
+        .on('end', () => this.emit('sync'))
+    }
   }
 
   start () {
