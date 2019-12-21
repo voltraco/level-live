@@ -2,6 +2,7 @@
 
 const { Readable } = require('stream')
 const ltgt = require('ltgt')
+const Codec = require('level-codec')
 
 class Live extends Readable {
   constructor (db, opts = {}) {
@@ -17,6 +18,9 @@ class Live extends Readable {
     db.on('put', this.onput)
     db.on('del', this.ondel)
     db.on('batch', this.onbatch)
+
+    this.codec = Codec(opts)
+    this.ltgt = this.codec.encodeLtgt(opts)
 
     if (opts.old !== false) {
       db
@@ -39,7 +43,8 @@ class Live extends Readable {
   }
 
   op (op) {
-    if (ltgt.contains(this.opts, op.key)) {
+    const key = this.codec.encodeKey(op.key)
+    if (ltgt.contains(this.ltgt, key)) {
       this.buf.push(op)
       if (this.buf.length === 1) this.start()
     }
