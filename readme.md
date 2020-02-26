@@ -31,6 +31,13 @@ $ npm install level-live
 - `start`
 - `end`
 
+Additional options are:
+- `old` set to false to skip past entries and only listen live
+
+### Event `sync`
+
+Emitted once the live stream finished the past and caught up to the present.
+
 ## License
 
 MIT
